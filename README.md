@@ -1,24 +1,7 @@
-# danmakulab
+# danmakulabv2
 
-## Project setup
-```
-npm install
-```
+# [点我进入实验室](/dist/).
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+mfuns 高级弹幕实验室 v2 版
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+采用 vue 重构
