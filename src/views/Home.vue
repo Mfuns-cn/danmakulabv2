@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar dense app color="primary" dark>
       <v-app-bar-title
-        >Mfuns Danmaku Lab <v-chip small>core 1.5.5</v-chip></v-app-bar-title
+        >Mfuns Danmaku Lab <v-chip small>core 1.5.6</v-chip></v-app-bar-title
       >
       <v-spacer></v-spacer>
       <v-btn title="导出文件" @click="exportFile" dark icon>
@@ -96,6 +96,9 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-snackbar top v-model="snackbar.show" :color="snackbar.color">{{
+        snackbar.text
+      }}</v-snackbar>
     </v-main>
   </v-app>
 </template>
@@ -118,6 +121,12 @@ export default {
       isFull: false,
       colorList: ["white", "black"],
       color: "white",
+      snackbar: {
+        //提示条
+        show: false,
+        color: "primary",
+        text: "",
+      },
     };
   },
   mounted() {
@@ -132,10 +141,13 @@ export default {
     let save = this.getAutoSave();
     if (save) {
       this.danamkuText = save;
+      this.alert("上次保存已载入", "green");
     }
     this.initEditor();
     //开启自动保存
     this.autoSave();
+    // 监听弹幕事件
+    this.danmakuEventInit();
   },
   beforeDestroy() {
     this.stopTime();
@@ -240,6 +252,9 @@ export default {
       });
       saveAs(blob, "弹幕导出.json");
     },
+    /**
+     * 自动保存
+     */
     autoSave() {
       setInterval(() => {
         window.localStorage.danamkuText = this.getValue();
@@ -247,6 +262,28 @@ export default {
     },
     getAutoSave() {
       return window.localStorage.danamkuText;
+    },
+    /**
+     * 弹出提示
+     */
+    alert(text, color) {
+      this.snackbar.color = color;
+      this.snackbar.text = text;
+      this.snackbar.show = true;
+    },
+    /**
+     * 弹幕核心事件监听器
+     */
+    danmakuEventInit() {
+      this.$refs.danmaku.core.listenerEvent("DANMAKU_JSON_INVALID", () => {
+        this.alert("弹幕格式无效，请检查后重试", "error");
+      });
+      this.$refs.danmaku.core.listenerEvent("DANMAKU_FORMAT_ERROR", (e) => {
+        this.alert(
+          `弹幕解析无效 内容:${e.content} , 位置：${e.index}`,
+          "error"
+        );
+      });
     },
   },
 };
