@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar dense app color="primary" dark>
       <v-app-bar-title
-        >Mfuns Danmaku Lab <v-chip small>core 1.5.6</v-chip></v-app-bar-title
+        >Mfuns Danmaku Lab <v-chip small>core 1.6.1</v-chip></v-app-bar-title
       >
       <v-spacer></v-spacer>
       <v-btn title="导出文件" @click="exportFile" dark icon>
